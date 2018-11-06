@@ -12,7 +12,7 @@ For every 7 moves, a star is deducted from your rating.
 
 Less the number of moves, makes your score better.
 
-## How To return
+## How To Run
 
 1. Clone or download the repository.
 2. Open index.html in your browser.
