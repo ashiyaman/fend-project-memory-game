@@ -112,7 +112,7 @@ checkMatch = () => {
     setTimeout(() => {
       toggleCard(firstCard, lastCard);
       openCards = [];
-    }, 500);
+    }, 200);
   }
 }
 
