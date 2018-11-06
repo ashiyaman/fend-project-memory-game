@@ -13,13 +13,13 @@
 
 /*      initialize variables */
 
-let starCount = 0;
+let starCount = 3;
 
 let openCards = [];
 
-let matchedCounter = 1;
+let matchedCounter = 0;
 
-let moveCounter = 2;
+let moveCounter = 0;
 
 let isTimer = false;
 
@@ -133,10 +133,17 @@ incrementMove = () => {
 }
 
 /*        display the number of moves     */
-
-displayMove = () => {
   let moveHtml = document.getElementById('moves');
+displayMove = () => {
   moveHtml.innerHTML = moveCounter;
+}
+
+
+/*        Reset Move                 */
+
+resetMove = () => {
+  moveCounter = 0;
+  displayMove();
 }
 
 /*        decrese rating for every 5 moves       */
@@ -153,9 +160,35 @@ removeStar = () => {
   let starList = document.querySelectorAll('#stars li');
   let lastStar = starList[starList.length - 1];
   lastStar.remove();
+  starCount -= 1;
 }
 
-/*        ddisplay win modal box        */
+/*          Reset star to 3 stars on clicking reset button         */
+
+resetStar = () => {
+  let starList = document.querySelector('#stars');
+  console.log(starCount);
+  if (starCount < 3) {
+    for (let i=starCount; i < 3; i++) {
+      let starToAppend = createStar();
+      console.log(starToAppend);
+      starList.appendChild(starToAppend);
+    }
+  }
+  starCount = 3;
+}
+
+/*         HTML to create star              */
+
+createStar = () => {
+    let star = document.createElement('li');
+    let icon = document.createElement('i');
+    icon.setAttribute('class', 'fa fa-star');
+    star.appendChild(icon);
+    return star;
+}
+
+/*        display win modal box        */
 
 won = () => {
   displayModal();
@@ -173,7 +206,7 @@ toggleModal = () => {
 
 getModalStatus = () => {
   document.querySelector('.getMove').innerHTML = moveCounter;
-  document.querySelector('.getRating').innerHTML = getStars();
+  document.querySelector('.getRating').innerHTML = starCount;
   document.querySelector('.getTime').innerHTML = milliseconds;
 }
 
@@ -195,18 +228,20 @@ displayModal = () => {
 const replayButton = modal.querySelector('button');
 
 /*        set and stop timer for game        */
-
+let timer;
+const ms = document.querySelector('#timer');
 startTimer = () => {
-  const ms = document.querySelector('#timer');
-  setInterval(() => {
-    milliseconds += 1;
-    ms.innerHTML = milliseconds;
-  }, 1000);
+  timer = setInterval(() => {
+        milliseconds += 1;
+        ms.innerHTML = milliseconds;
+      }, 1000);
 }
 
 stopTimer = () => {
   milliseconds = 0;
   isTimer = false;
+  clearInterval(timer);
+  ms.innerHTML = milliseconds;
 }
 
 /*        respond to card click       */
@@ -233,8 +268,9 @@ respondToReset = () => {
   displayCards();
   stopTimer();
   openCards = [];
-  moveCounter = 2;
-  matchedCounter = 1;
+  matchedCounter = 0;
+  resetStar();
+  resetMove();
   cards.forEach(function(card) {
     if ((card.className.includes('open')) || card.className.includes('show')) {
       card.classList.toggle('open');

@@ -6,7 +6,7 @@ Game consists of 16 cards.
 
 Game starts as soon as player clicks(flips) a card. A timer also starts soon.
 
-Player has to match all the 8 matches to win. 1 is already matched for you.
+Player has to match all the 8 matches(all 16 cards) to win.
 
 For every 7 moves, a star is deducted from your rating.
 
